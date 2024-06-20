@@ -2,7 +2,6 @@ import { useTonWallet } from '@tonconnect/ui-react';
 
 export const Wallet = () => {
     const wallet = useTonWallet();
-    console.log('wallet', wallet)
 
     return (
         wallet && (

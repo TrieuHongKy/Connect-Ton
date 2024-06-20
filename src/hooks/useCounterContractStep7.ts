@@ -1,33 +1,33 @@
-import { useEffect, useState } from 'react';
-import Counter from '../contracts/counter';
-import { useTonClient } from './useTonClient';
-import { useAsyncInitialize } from './useAsyncInitialize';
-import { useTonConnect } from './useTonConnect';
-import { Address, OpenedContract } from '@ton/core';
+import { useEffect, useState } from "react";
+import Counter from "../contracts/counter";
+import { useTonClient } from "./useTonClient";
+import { useAsyncInitialize } from "./useAsyncInitialize";
+import { useTonConnect } from "./useTonConnect";
+import { Address, OpenedContract } from "@ton/core";
 
 export function useCounterContract() {
   const client = useTonClient();
   const [val, setVal] = useState<null | string>();
   const { sender } = useTonConnect();
 
-  const sleep = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
-  
+  const sleep = (time: number) =>
+    new Promise((resolve) => setTimeout(resolve, time));
+
   const counterContract = useAsyncInitialize(async () => {
     if (!client) return;
     const contract = new Counter(
-      Address.parse('EQCYm8kJKtyrOAreb-LqhbHMu79pIk-EfS0sprOb2A8abFnh') // replace with your address from tutorial 2 step 8
+      Address.parse("EQCYm8kJKtyrOAreb-LqhbHMu79pIk-EfS0sprOb2A8abFnh")
     );
     return client.open(contract) as OpenedContract<Counter>;
-    }, [client]);
-    
+  }, [client]);
+
   useEffect(() => {
     async function getValue() {
       if (!counterContract) return;
       setVal(null);
       const val = await counterContract.getCounter();
-      console.log('val', val)
       setVal(val.toString());
-      await sleep(100000); // sleep 5 seconds and poll value again
+      await sleep(100000);
       getValue();
     }
     getValue();

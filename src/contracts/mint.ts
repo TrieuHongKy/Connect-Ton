@@ -1,6 +1,6 @@
 import { Address, beginCell, Cell, Contract, ContractProvider, Sender } from "@ton/core";
 
-export default class Mint implements Contract {
+export class Mint implements Contract {
   async sendIncrement(provider: ContractProvider, via: Sender) {
     const messageBody = beginCell()
       .storeUint(1, 32) // op (op #1 = increment)
@@ -13,7 +13,8 @@ export default class Mint implements Contract {
   }
   
   async getMint(provider: ContractProvider) {
-    const { stack } = await provider.get("SampleJetton", []);
+    const { stack } = await provider.get("getCounter", []);
+    console.log('provider', stack)
     return stack.readBigNumber();
   }
 

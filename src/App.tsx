@@ -8,8 +8,9 @@ import { useMintContract } from "./hooks/useMintContract";
 
 function App() {
   const { connected } = useTonConnect();
+  console.log('connected', connected)
   const { value, address, sendIncrement } = useCounterContract();
-  const { getMint } = useMintContract();
+  const { sendMint } = useMintContract();
 
   return (
     <div className="App">
@@ -30,7 +31,6 @@ function App() {
 
         <div className="flex flex-row gap-4">
           <button
-            className={`Button ${connected ? "Active" : "Disabled"}`}
             onClick={() => {
               sendIncrement();
             }}
@@ -38,12 +38,11 @@ function App() {
             Increment
           </button>
           <button
-            className={`Button ${connected ? "Active" : "Disabled"}`}
             onClick={() => {
-              getMint();
+              sendMint();
             }}
           >
-            Alo
+            Minting Token
           </button>
         </div>
       </div>
